@@ -8,4 +8,10 @@
 
 'use strict';
 
+//dragging and stuff functions so nibbles can move position
+
+//class for the targets
+
+//collision function
+
 
