@@ -5,5 +5,13 @@ body {
 }
 
 .positions {
-    
+    border-style: solid;
+    width:100px;
+    height: 100px;
+   float:left;
+}
+
+#myCanvas {
+    border-style: solid;
+
 }
