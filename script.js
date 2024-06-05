@@ -28,6 +28,10 @@ function dragStart(event){
   event.dataTransfer.setData("image", event.target.id);
 }
 
+//cannon? released? object to hit things
+function fire(event){
+  //what the hell
+}
 
 //collision function
 
