@@ -8,7 +8,38 @@
 
 'use strict';
 //class for the targets
-let canvas = document.getElementById("myCanvas");
+const myCanvas = document.getElementById("myCanvas");
+const ctx = myCanvas.getContext("2d"); //to draw and utilize other stuff
+
+class Player{
+  constructor(){
+    this.position = { //setting position of player/nibbles :D
+      x: 50, y:50
+    }
+
+    //where is the object heading
+    this.going = 0;
+
+    //nibbles pictures properties i think??
+    //this.image=
+    this.width=50;
+    this.height=50;
+  }
+  //??
+
+  //method time
+   //temp nibbles
+   draw(){
+   /* ctx.fillStyle='pink';
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height); //using previous position idk*/
+    ctx.drawImage("./nibbles.jpg",this.position.x,this.position.y); //?
+
+  }
+}
+
+const nibbles = new Player();
+nibbles.draw();
+
 class Target{
   //set properties such as: hp, visible (bool), size,
   //size will be randomly generated later
