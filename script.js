@@ -18,21 +18,22 @@ class Player{
     }
 
     //where is the object heading
-    this.going = 0;
+   //?? this.going = 0; maybe ??
 
     //nibbles pictures properties i think??
-    //this.image=
+    this.image= new Image();
     this.width=50;
     this.height=50;
   }
-  //??
+  //?? why is this not working
+  this.image.src = "./nibbles.jpg";
 
   //method time
-   //temp nibbles
+   //NIBBLES YAYYAYYAYY
    draw(){
    /* ctx.fillStyle='pink';
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height); //using previous position idk*/
-    ctx.drawImage("./nibbles.jpg",this.position.x,this.position.y); //?
+    ctx.drawImage(this.image,this.position.x,this.position.y); //image, width, height
 
   }
 }
@@ -73,8 +74,8 @@ class Target{
   }
 }
 
-//dragging and stuff functions so nibbles can move position - DONE
-function drag(event){
+//dragging and stuff functions so nibbles can move position
+/*function drag(event){
   event.preventDefault();
   let data = event.dataTransfer.getData("image");
   event.target.appendChild(document.getElementById(data));
@@ -86,7 +87,7 @@ function allow(event){
 
 function dragStart(event){
   event.dataTransfer.setData("image", event.target.id);
-}
+}*/
 
 //cannon? released? object to hit things
 function fire(event){
