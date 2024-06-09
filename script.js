@@ -21,7 +21,7 @@ class Player{
       x:0
     }
 
-    //nibbles pictures properties i think??
+    //nibbles pictures properties
     const image = new Image();
     image.src="nibblesback.png";
     //make sure dimensions are set AFTER image finished loading
