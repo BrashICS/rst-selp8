@@ -2,12 +2,15 @@ html,
 body {
     height: 100%;
     width: 100%;
+    background-color: #29738e; /*snorlax's color hehe*/
 }
 
-.positions {
-    border-style: solid;
-    width:100px;
-    height: 100px;
-   float:left;
+#scoreOntop{
+    position: fixed;
+    z-index: 10; /*stack order of element, can only be used on positioned elements, this is so its over the content*/
+    color: white;
+    left: 10px;
+    top: 10px;
+    margin: 0;
 }
 
