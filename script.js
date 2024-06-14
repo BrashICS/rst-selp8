@@ -21,6 +21,7 @@
  * -cooler background like stars and stuff
  * -maybe randomize the number of rows and columns in the enemy grid??
  * -when snorlax is at nibbles.position.y, game.over = true
+ * -button that refreshes the page so player can play again "try again", only visible when !game.active
  *
  * THINGS I NEED TO ADD:
  * -clean up the damn code wtf

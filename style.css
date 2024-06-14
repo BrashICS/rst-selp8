@@ -5,6 +5,7 @@ body {
     background-color: #29738e; /*snorlax's color hehe*/
 }
 
+/*index.html*/
 #scoreOntop{
     position: fixed;
     z-index: 10; /*stack order of element, can only be used on positioned elements, this is so its over the content*/
@@ -13,4 +14,12 @@ body {
     top: 10px;
     margin: 0;
 }
+
+/*instructions.html*/
+
+
+/*intro.html*/
+
+
+/*nibbles.html*/
 
