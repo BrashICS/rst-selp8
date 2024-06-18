@@ -467,6 +467,6 @@ function stop(event){
   }
 }
 
-
-
-
+function refresh(){
+  window.location.reload();
+}

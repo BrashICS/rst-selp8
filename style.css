@@ -5,14 +5,27 @@ body {
     background-color: #29738e; /*snorlax's color hehe*/
 }
 
-/*index.html*/
+/*game.html*/
 #scoreOntop{
     position: fixed;
-    z-index: 10; /*stack order of element, can only be used on positioned elements, this is so its over the content*/
     color: white;
     right: 10px;
     top: 10px;
     margin: 0;
+}
+
+#refreshBtn{
+    color:#103745;
+    background-color: transparent;
+    font-size: 25px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+    transition-duration: 0.4ms;
+    border-style: none;
+}
+
+#refreshBtn:hover{
+    color:#7f6f62;
 }
 
 /*instructions.html*/
@@ -44,7 +57,7 @@ body {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-/*intro.html*/
+/*index.html*/
 #heading {
     text-align: center;
     font-size: 300%;
