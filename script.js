@@ -7,30 +7,21 @@
   func for EACH element in array
   arrow function : () => {}
   -sometimes, we use a prebuilt function that does something based on a function, we can incorporate that function right away!!! makes code smaller lowkey, cuz no need to go searching for the related funciton
-  globalAlpha(): the transparency of something on da canvas...
+  globalAlpha(): the transparency of something on the canvas...
   https://www.w3schools.com/tags/canvas_globalalpha.asp
   -save() and restore(): for the canvsa! you save a state, kinda storing it, then you can do something else, and then restore it back to the og!!
+  -requestAnimationFrame() :https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+
 
  * CURRENT BUGS:
- * -snorlax sometimes duplicates when hitting wall, but dissapears later, but is actual object, so can hit and wastes ammo basically : ill just say its part of the game to make it harder... it gonna be called snorlax taunt okay
- * -something about x being uncaught reference but it shouldnt work then but it does?
- *  -no it actually doesnt work: the pewpews are only spawning at the left half and not from snorlax
+ * -snorlax sometimes duplicates when hitting wall, but dissapears later, but is actual object, so can hit and wastes pewpew basically : ill just say its part of the game to make it harder... it's gonna be called snorlax taunt okay
+ * -something about x being uncaught reference but then the x position shouldnt work but it does?
  *
- * THINGS I CAN TO ADD:
- * -explosions dots fade away
- * -cooler background like stars and stuff
+ * THINGS I COULD HAVE ADDED:
  * -maybe randomize the number of rows and columns in the enemy grid??
  * -when snorlax is at nibbles.position.y, game.over = true
  * -button that refreshes the page so player can play again "try again", only visible when !game.active
- *
- * THINGS I NEED TO ADD:
- * -clean up the damn code wtf
- * -make better notes
- * -title screen
- * -instructional page
- * -picture of my pseuodocode/planning -> the one from my notebook
- *
- *
+ * -Update the length so grid of enemies, so they could continue hitting the edges, not an awkward spacing once gone
  *
  * Author: Selena
  */
@@ -41,6 +32,9 @@ const myCanvas = document.getElementById("myCanvas");
 const ctx = myCanvas.getContext("2d");
 let scoreYea = document.getElementById("score");
 scoreYea=0;
+//listen for A and D pressed so nibbles can move and when not pressed, nibbles stops moving
+addEventListener("keydown", move);
+addEventListener("keyup", stop);
 
 class Player{
   constructor(){
@@ -70,7 +64,6 @@ class Player{
   }
 
   //method time
-   //NIBBLES
   draw(){
     ctx.save();
     ctx.globalAlpha = this.opacity;
@@ -111,7 +104,7 @@ class Pewpew{
   }
 }
 
-//so snorlax can shoot back too!!!!!
+//The attacks of Snorlax
 class EnemyPewpew{
   constructor({position, going}){
     this.position = position;
@@ -120,7 +113,7 @@ class EnemyPewpew{
     this.height = 10;
   }
 
-  //method time - similar to player but not exactly same so inheritance no thank you
+  //method time
   draw(){
     ctx.fillStyle = "blue";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
@@ -138,11 +131,11 @@ class Boom{
   constructor({position, going, radius, color}){
     this.position = position;
     this.going = going;
-    this.radius=radius; //going to be circular so radius by default
+    this.radius=radius;
     this.color = color;
   }
 
-  //method time - similar to player but not exactly same so inheritance no thank you
+  //method time
   draw(){
     ctx.beginPath();
     ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI *2); //we use it to make full arc so a circle
@@ -161,7 +154,7 @@ class Boom{
 //snorlax
 class Enemy{
   constructor({position}){
-    //where is the object heading
+    //where the object heading
     this.going = {
       x:0,
       y:0
@@ -174,11 +167,10 @@ class Enemy{
       this.image=image;
       this.width=image.width *0.3;
       this.height=image.height*0.2;
-
       this.position = { //setting position of player/nibbles to the middle:D
         x: position.x,
         y: position.y //wont be static anymore, dynamically being set/constructed
-        //also so that it isnt like overlapping when i make more of them hehe for the grids HAHAHAHA :(
+        //also so that it isnt like overlapping when i make more of them hehe for the grids
       }
     }
   }
@@ -201,18 +193,21 @@ class Enemy{
   pew(enemyPewpews){
     enemyPewpews.push(new EnemyPewpew({
       position: {
-        x: (this.position.x + this.width) /2, //WE GETTING THE MIDDLE OF THE ENEMY PEWPEW
+        //Getting the middle of enemy's pewpew
+        x: this.position.x + (this.width /2),
+        //Bottom of the enemy
         y: this.position.y + this.height
       },
       going: {
-        x: 0,y:5
+        x:0,
+        y:5
       }
     }))
   }
 }
 
 class Grid{
-  //class for grids of enemies
+  //for the grids of enemies
   constructor(){
     this.position={
       x:0,y:0
@@ -230,7 +225,7 @@ class Grid{
       for(let j=0;j<5;j++){ //for the rows
         this.enemies.push(new Enemy({position:{
           x:i * 60,
-          y:j* 60
+          y:j * 60
         }}));
       }
 
@@ -238,21 +233,22 @@ class Grid{
   }
 
   //methods
-  //move da enemies side to side
+  //Enemies going side to side
   update() {
     this.position.x+=this.going.x;
     this.position.y+=this.going.y;
-    //set to 0 as default so wehn it hits wall it doesnt keep flying downward it was actualy funny seeing it
+    //set to 0 as default so wehn it hits wall it doesnt keep flying downward (it was actualy funny seeing it)
     this.going.y=0;
-    //need to condition that when its greater, go other way, and back
+    //Goes the opposite once side of canvas is hit/touched
     if(this.position.x + this.width >= myCanvas.width || this.position.x <=0){
       this.going.x= -this.going.x;
-      //everytime the snorlax army hits a wall, goes down to make harder
+      //everytime the snorlax army hits side, grid comes down
       this.going.y=30;
     }
   }
 }
 
+//CONSTS/MAIN PROPERTIES
 
 const nibbles = new Player();
 //to make array of pewpews, so multiple
@@ -274,31 +270,27 @@ const keys = {
   }
 };
 
-
-//listen for A and D pressed so nibbles can move and when not pressed, nibbles stops moving
-addEventListener("keydown", move);
-addEventListener("keyup", stop);
-
+//properties to stop the game
 let frames=0;
 let ranInterval = Math.floor((Math.random()*500)+500);
 let game = {
   over: false,
   active: true
 }
-//console.log(ranInterval);
+
+/**~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~ **/
 //i make function so things continueously shows up - keep calling..
 function plsshowup(){
   if(!game.active){
-    //dont return any of the code, we done, stop the damn game
+    //dont return any of the code, pauses all functions, cease operations
     return;
   }
   //i learn new thing:request for frame to animate, function called ..
   requestAnimationFrame(plsshowup);
-  //bg
+  //Background
   ctx.fillStyle = 'black';
   ctx.fillRect(0,0,myCanvas.width,myCanvas.height);
   nibbles.update();
-
   booms.forEach(boom => {
     boom.update();
   })
@@ -313,9 +305,9 @@ function plsshowup(){
     }
 
     //detect collision
-    //when snorlax shoots nibbles, game ends!!!!!
+    //When enemy's pew collides with nibbles, game ends
       if(enemyPew.position.y + enemyPew.height >=nibbles.position.y && enemyPew.position.x + enemyPew.width >=nibbles.position.x && enemyPew.position.x <= nibbles.position.x + nibbles.width /*or if snorlax position greater than mycanvas size*/){
-        setTimeout(() => { //avoid glitches with the timeout AND remove the enemiespewpew from the array for efficiency lwk , like not rlly but yea
+        setTimeout(() => { //avoid glitches with the timeout
           enemyPewpews.splice(index,1)
           //once hit, nibbles gone, game over
           nibbles.opacity =0;
@@ -331,12 +323,10 @@ function plsshowup(){
       }
   })
 
-  //only animate when key is being pressed - determined by object
-  //and not going off the damn screen
+  //only animate when key is being pressed - determined by object, and not going off canvas
   if(keys.a.pressed && nibbles.position.x >=0){
     nibbles.going.x=-5;
   }
-  //no idea why its + width but it doesnt work otherwise
   else if(keys.d.pressed && nibbles.position.x + nibbles.width <=myCanvas.width){
     nibbles.going.x=5;
   }
@@ -355,10 +345,10 @@ function plsshowup(){
     }
   });
 
-  grids.forEach((grid) => {
+  grids.forEach((grid, gridIndex) => {
     grid.update();
 
-    // spawn pewpews of enemies
+    // spawn pewpews of enemies, at a controlled pace
     if(frames % 100 ==0 && grid.enemies.length >0) {
       grid.enemies[Math.floor(Math.random() * grid.enemies.length)].pew(enemyPewpews); //choose a random snorlax
     }
@@ -394,14 +384,9 @@ function plsshowup(){
             if(enemyFound && pewpewHit) {
               scoreYea+=100;
               score.innerHTML=scoreYea;
-             // console.log(score);
               grid.enemies.splice(index, 1)
               pewpews.splice(index2,1);
-
-              //somehow update length so grid of enemies can continue hitting edge of screen
-
             }
-
           },0)
         }
       })
@@ -432,10 +417,10 @@ function createBoom({object, color}){
       },
       going: {
         //randomize where its going, so they dont overlap and create the uh explosion effect yknow
-        //i do subtraction so they can disperse upwards too HELL YEA
+        //i do subtraction so they can disperse upwards too
         x: (Math.random()-1) *2, y: (Math.random()-1) *2
       },
-      //get some randomized size too yeeeaaaaa
+      //get some randomized size too
       radius: Math.random() *3,
       color:color
     }))
@@ -444,20 +429,16 @@ function createBoom({object, color}){
 
 function move(event){
   if(game.over) {
-    //stop fr
+    //If game is over, function returns, nothing happens
     return;
   }
-  //console.log(event.key);
   if(event.key=='a'){
-   // console.log("left");
     keys.a.pressed=true;
   }
   if(event.key=='d'){
-    //console.log("right");
     keys.d.pressed=true;
   }
   if(event.key==' '){
-   // console.log("space");
     pewpews.push( //we are pushing a new object into the array created earlier, causing it to go up to screen
     new Pewpew({
       position: {
@@ -474,18 +455,14 @@ function move(event){
 }
 
 function stop(event){
-  //when key up, stop moving!!!!
-  //console.log(event.key);
+  //when key up, stop moving
   if(event.key=='a'){
-   // console.log("left");
     keys.a.pressed=false;
   }
   if(event.key=='d'){
-   // console.log("right");
     keys.d.pressed=false;
   }
   if(event.key==' '){
-   // console.log("space");
     keys.space.pressed=false;
   }
 }
